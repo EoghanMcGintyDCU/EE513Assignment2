@@ -19,7 +19,7 @@ using namespace exploringRPi;
 #define AUTHMETHOD "eoghan"
 #define AUTHTOKEN  "ligia1993"
 #define TOPIC      "ee513/Sensor"
-#define QOS        0
+#define QOS        2
 #define TIMEOUT    10000L
 
 float getCPULoad() {        		// get the CPU load

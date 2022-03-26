@@ -1,0 +1,3 @@
+#!/bin/bash
+export MQTT_C_CLIENT_TRACE=ON
+export MQTT_C_CLIENT_TRACE_LEVEL=PROTOCOL

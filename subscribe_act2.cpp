@@ -1,18 +1,42 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+#include <thread>
+#include <chrono>
+#include <iostream>
+#include "RTC.h"
 #include "MQTTClient.h"
 
 #define ADDRESS     "tcp://192.168.7.1:1883"
 #define CLIENTID    "rpi2"
 #define AUTHMETHOD  "eoghan"
 #define AUTHTOKEN   "ligia1993"
-#define TOPIC       "ee513/CPUTemp"
+#define TOPIC       "ee513/Sensor"
 #define PAYLOAD     "Hello World!"
 #define QOS         1
 #define TIMEOUT     10000L
 
+using namespace std::chrono;
+using namespace std::this_thread;
+
+// This actuator application will flash the LED hooked up to GPIO pin 67
+
 volatile MQTTClient_deliveryToken deliveredtoken;
+
+void resetRTC(){
+    RTC rtc;
+    rtc.setDate(0,0,0,0,0,0,0); 
+}
+
+float determineRoll(std::string json){
+    std::string pitchDelim {"\"Roll\":"};
+    std::string endDelim {"}"};
+    auto first_pos = json.find(pitchDelim);
+    auto end_pos = first_pos + pitchDelim.length();
+    auto last_pos = json.find_first_of(endDelim, end_pos);
+    return std::stof(json.substr(end_pos, last_pos - end_pos));
+
+}
 
 void delivered(void *context, MQTTClient_deliveryToken dt) {
     printf("Message with token value %d delivery confirmed\n", dt);
@@ -26,10 +50,16 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     printf("     topic: %s\n", topicName);
     printf("   message: ");
     payloadptr = (char*) message->payload;
-    for(i=0; i<message->payloadlen; i++) {
-        putchar(*payloadptr++);
+    std::string json {payloadptr, (size_t)message->payloadlen};
+    std::cout << json << std::endl;
+    if(std::abs(determineRoll(json)) > 10){
+	std::cout << "Take it handy" << std::endl;
+        resetRTC();
     }
-    putchar('\n');
+
+    RTC rtc;
+    rtc.displayTime(); 
+
     MQTTClient_freeMessage(&message);
     MQTTClient_free(topicName);
     return 1;

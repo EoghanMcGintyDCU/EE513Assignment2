@@ -12,7 +12,7 @@
 #define AUTHTOKEN   "ligia1993"
 #define TOPIC       "ee513/Sensor"
 #define PAYLOAD     "Hello World!"
-#define QOS         1
+#define QOS         2
 #define TIMEOUT     10000L
 
 using namespace std::chrono;
@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
 
     MQTTClient_create(&client, ADDRESS, CLIENTID, MQTTCLIENT_PERSISTENCE_NONE, NULL);
     opts.keepAliveInterval = 20;
-    opts.cleansession = 1;
+    opts.cleansession = false;
     opts.username = AUTHMETHOD;
     opts.password = AUTHTOKEN;
 
