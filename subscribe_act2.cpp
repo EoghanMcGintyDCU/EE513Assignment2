@@ -8,7 +8,7 @@
 #include "MQTTClient.h"
 
 #define ADDRESS     "tcp://192.168.7.1:1883"
-#define CLIENTID    "rpi2"
+#define CLIENTID    "bbb"
 #define AUTHMETHOD  "eoghan"
 #define AUTHTOKEN   "ligia1993"
 #define TOPIC       "ee513/Sensor"

@@ -1,2 +1,2 @@
-# EE513Assignment2
-Code for multi-sensor-actuator mqtt application
+# ee513Assignment2
+EE513 Assignment 2

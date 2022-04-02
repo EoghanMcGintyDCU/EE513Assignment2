@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
    sensor.readSensorState();
 
    auto time = getTime();
-   sprintf(str_payload, "{\"d\":{\"Time\": %s, \"CPULoad\": %f, \"Pitch\": %f, \"Roll\": %f }}",
+   sprintf(str_payload, "{ \"data\": { \"Time\": \"%s\", \"CPULoad\": %f, \"Pitch\": %f, \"Roll\": %f } }",
 		  time.c_str() , getCPULoad(), sensor.getPitch(), sensor.getRoll());
    pubmsg.payload = str_payload;
    pubmsg.payloadlen = strlen(str_payload);
